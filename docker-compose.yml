@@ -1,0 +1,10 @@
+services:
+  oauth2-deep-lab:
+    build: .
+    container_name: oauth2-deep-lab
+    ports:
+      - "5090:5090"
+    environment:
+      LAB_HOST: "0.0.0.0"
+      LAB_RESET: "1"
+    restart: unless-stopped

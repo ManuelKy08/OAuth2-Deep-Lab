@@ -88,6 +88,8 @@ def seed():
                     ('web-app', 'web-secret', 'Web App (tidak bersalah)', 'http://127.0.0.1:5090/app/cb', 1),
                     ('evil-app', 'evil-secret', 'Evil App (attacker client)', 'http://127.0.0.1:5090/evil/client/cb', 0),
                 ])
+        if os.environ.get('LAB_RESET') == '1':
+            c.execute('DELETE FROM settings')
         for k in ('s1', 's2', 's3', 's4'):
             c.execute('INSERT OR IGNORE INTO settings(key,vulnerable) VALUES(?,1)', (k,))
 

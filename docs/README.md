@@ -28,3 +28,11 @@ Client: `web-app` (korban) vs `evil-app`, **Evil App** di `/evil/*`, webhook pen
 ```
 python -m app.main      # dari folder lab — port 5090, browser auto terbuka
 ```
+
+### Docker (rekomendasi — versi library dijamin konsisten)
+```bash
+docker compose up -d --build     # buka http://127.0.0.1:5090
+docker compose down              # stop
+docker compose down -v           # stop + reset database
+```
+State selalu di-reset ke RENTAN saat container start.
