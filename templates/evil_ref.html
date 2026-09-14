@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Evil Ref Collector — OAuth2 Deep Lab{% endblock %}
+{% block content %}
+<div class="card">
+  <h2 class="card-title" style="color:var(--red)"><i class="fa-solid fa-skull"></i> /evil/ref — Collect token dari Referer</h2>
+  <p class="dim">Server jahat ini "hanya gambar". Browser yang memuatnya mengirim Request Header <code>Referer</code> berisi URL lengkap.</p>
+
+  <div class="kill-box">
+    <div class="kill-row"><span>Referer</span><code>{{ ref or '(tidak ada Referer)' }}</code></div>
+    <div class="kill-row code"><span>access_token</span><code>{{ token }}</code></div>
+    {% if stolen %}
+    <div class="kill-row flag"><span>STOLEN</span><b class="yellow">token valid → data victim terbuka → FLAG: {{ flag }}</b></div>
+    {% else %}
+    <div class="kill-row"><span>Status</span><span>tidak ada token (aman) — mode FIXED / flow berubah</span></div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

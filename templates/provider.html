@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Provider Identity — OAuth2 Deep Lab{% endblock %}
+{% block content %}
+<div class="card">
+  <h2 class="card-title"><i class="fa-solid fa-user-secret"></i> Provider Identity (id.corp-test.local)</h2>
+  <p class="dim">Login ke provider dulu sebelum skenario authorize — buat main flow /approve di browser.</p>
+
+  {% if current %}
+  <div class="err-box">Sesi provider saat ini: <b>{{ current }}</b></div>
+  {% endif %}
+
+  <form method="post" action="/oauth/login">
+    <input type="hidden" name="next" value="{{ next_url }}">
+    <div class="id-grid">
+      <button class="id-card" name="identity" value="victim">
+        <span class="id-emoji">👤</span>
+        <span><b>victim</b><small>victim@corp.test · tenant corp-test · <b>punya FLAG</b></small></span>
+        <span class="id-tag">TARGET</span>
+      </button>
+      <button class="id-card" name="identity" value="attacker">
+        <span class="id-emoji">🦹</span>
+        <span><b>attacker</b><small>attacker@evil.com · tenant attackercloud</small></span>
+        <span class="id-tag">ATTACKER</span>
+      </button>
+      <button class="id-card" name="identity" value="atk-dup">
+        <span class="id-emoji">👥</span>
+        <span><b>atk-dup</b><small>email victim@corp.test di tenant attackercloud (verified) → bahan s3</small></span>
+        <span class="id-tag">TENANT LAIN</span>
+      </button>
+    </div>
+  </form>
+</div>
+{% endblock %}

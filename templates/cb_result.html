@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Callback — Client App{% endblock %}
+{% block content %}
+<div class="card">
+  <h2 class="card-title"><i class="fa-solid fa-circle-right"></i> Callback client app</h2>
+
+  {% if ok %}
+  <div class="pill pill-green" style="display:inline-block">{{ msg }}</div>
+  {% if flag %}<p class="green" style="font-weight:900;font-size:16px;margin-top:8px">FLAG: {{ flag }}</p>{% endif %}
+  <div class="log-wrap" style="margin-top:14px">
+    {% for d in details %}<div class="log-row"><span>✓</span><span class="log-detail">{{ d }}</span></div>{% endfor %}
+  </div>
+  {% else %}
+  <div class="err-box">{{ msg }}</div>
+  {% endif %}
+
+  <a class="btn-ok" style="display:inline-block;margin-top:12px" href="/app/login">← Ulang Login</a>
+  <a class="btn-link" href="/logs">Attacker Logs</a>
+</div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Profile — Client App{% endblock %}
+{% block content %}
+<div class="card">
+  <h2 class="card-title"><i class="fa-solid fa-user"></i> Profile (diakses via query-string token)</h2>
+  <div class="log-wrap" style="margin-top:10px">
+    <div class="log-row"><span>username</span><b>{{ user.username }}</b></div>
+    <div class="log-row"><span>email</span><b>{{ user.email }}</b></div>
+    <div class="log-row"><span>tenant</span><b>{{ user.tenant }}</b></div>
+    {% if user.flag %}<div class="log-row"><span>FLAG</span><b class="yellow">{{ user.flag }}</b></div>{% endif %}
+  </div>
+  <p class="dim" style="margin-top:12px">Token masih tampil di query string → ikut ke Referer dari semua resource di halaman ini. Lihat <b>Attacker Logs → /evil/ref</b>.</p>
+</div>
+{% endblock %}

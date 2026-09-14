@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Evil App — OAuth2 Deep Lab{% endblock %}
+{% block content %}
+<div class="card">
+  <h2 class="card-title" style="color:var(--red)"><i class="fa-solid fa-skull"></i> Evil App (client attacker: evil-app)</h2>
+  <p class="dim">Silakan celah khas skenario <b>s1</b>: ambil authorization code korban (mis. dari history/URL/log Web App), tempel di bawah, lalu tukar di token endpoint dengan credential evil-app. Skenario yang benar: token endpoint menolak karena binding client tidak cocok.</p>
+
+  <p class="dim">Redirect URI terdaftar: <code>{{ cb }}</code></p>
+
+  <form method="get" action="/evil/client/cb" style="margin:14px 0;display:flex;gap:10px">
+    <input class="inp" name="code" placeholder="tempel authorization code korban di sini…" style="flex:1;background:#0d1526;border:1px solid var(--border);color:var(--text);padding:10px 13px;border-radius:10px;font-family:Consolas,monospace">
+    <button class="btn-run" style="background:var(--red);color:#fff;border:none">Redeem dengan evil-app</button>
+  </form>
+
+  <p class="dim">Tips untuk coba manual alur s1:</p>
+  <ol class="steps">
+    <li>Login provider sebagai <b>victim</b> (menu Provider Identity).</li>
+    <li>Buka Client App → "Login dengan IdP" → Setujui → callback berisi <code>?code=…</code>. Salin code-nya.</li>
+    <li>Tempel code di atas → Redeem dengan evil-app → lihat hasilnya (RENTAN: dapat token victim; FIXED: ditolak).</li>
+  </ol>
+</div>
+{% endblock %}

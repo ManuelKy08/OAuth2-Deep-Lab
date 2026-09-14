@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Attacker Logs — OAuth2 Deep Lab{% endblock %}
+{% block content %}
+<div class="card">
+  <div class="rekap-head">
+    <h2 class="card-title" style="margin:0"><i class="fa-solid fa-bug"></i> Attacker Logs</h2>
+    <span class="pill pill-red">jejak exploit + aliran token</span>
+  </div>
+  <div class="log-wrap">
+    <div class="log-row log-head"><span>waktu</span><span>skenario</span><span>detail</span></div>
+    {% for l in logs %}
+    <div class="log-row">
+      <span class="log-ts">{{ l.ts }}</span>
+      <span><b class="sc-{{ l.source }}">{{ l.source }}</b></span>
+      <span class="log-detail">{{ l.msg }}</span>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

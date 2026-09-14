@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Callback Implicit — Client App{% endblock %}
+{% block content %}
+<div class="card">
+  <h2 class="card-title"><i class="fa-solid fa-bolt"></i> Halaman callback implicit (token di URL)</h2>
+  <p class="dim">Browser menerima token via fragment <code>#access_token=…</code>. JavaScript client ini MEMBACA token lalu merepostnya ke <code>/app/profile?token=…</code> (<b>query string</b>). Halaman itu memuat <code>&lt;img src="/evil/ref"&gt;</code>.</p>
+  <pre class="poc-out" id="dump"><span class="dim">⏳ mengekstrak token dari URL…</span></pre>
+  <img src="/evil/ref" alt="" width="1" height="1">
+</div>
+<script>
+  (function () {
+    var tok = (location.hash.match(/access_token=([^&]+)/) || [])[1] || '';
+    var pre = document.getElementById('dump');
+    if (!tok) {
+      pre.innerHTML = '<span class="bad">TIDAK ADA access_token di fragment.</span> FIXED s4 = provider menolak implicit.';
+      return;
+    }
+    pre.innerHTML = 'access_token terdeteksi di URL: <span class="flag">' + tok.slice(0, 18) + '…</span>' +
+      '\n↳ tetap dipakai (tanpa disimpan aman) & dipost ke /app/profile?token=…\n' +
+      '↳ halaman memuat /evil/ref → Referer = URL dgn token → bocor.';
+    fetch('/app/profile?token=' + encodeURIComponent(tok)).catch(function () {});
+  })();
+</script>
+{% endblock %}

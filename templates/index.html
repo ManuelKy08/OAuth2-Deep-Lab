@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card hero">
+  <div class="hero-box">
+    <div class="hero-title">OAuth2 Deep-Dive Lab — real case, versi jarang diangkat</div>
+    <div class="hero-sub">4 kerentanan OAuth/OIDC nyata yang langsung dikaitkan ke <b style="color:var(--purple)">Bug Bounty</b>, tapi jarang muncul di lab lab lain: cross-client code swap, <code id="fake"></code> alg=none, tenant confusion, dan akses-token bocor lewat URL.</div>
+    <div class="hero-meta">
+      <span class="pill pill-orange">Provider (id.corp-test.local)</span>
+      <span class="pill pill-blue">Client Web App</span>
+      <span class="pill pill-red">Evil App / Tenant attackercloud.io</span>
+      <span class="pill pill-green">Flag: akun <b>victim@corp.test</b></span>
+    </div>
+    <div class="session-row">
+      <span>Identity provider: <b class="cyan">{{ provider or '— belum login —' }}</b></span>
+      <span>Sesi client app: <b class="green">{{ client_user or '— logout —' }}</b></span>
+    </div>
+  </div>
+</div>
+
+{% for s in ['s1','s2','s3','s4'] %}
+{% set m = modes[s] %}
+<div class="card sc-card" id="sc-{{ s }}">
+  <div class="sc-head">
+    <div class="sc-badge s{{ s }}">{{ loop.index }}</div>
+    <div class="sc-info">
+      <div class="sc-title">{{ {'s1':'1️⃣ Authorization code TIDAK di-bind ke client_id → cross-client code swap','s2':'2️⃣ id_token tanpa verifikasi signature → `alg=none` forgery → ATO','s3':'3️⃣ Issuer/tenant tidak divalidasi → cross-tenant ATO (attackercloud.io)','s4':'4️⃣ Implicit grant → access token terpapar di URL → bocor via Referer'}[s] }}</div>
+      <div class="sc-desc">{{ {'s1':'Token endpoint memakai code tanpa mengecek code itu punya client mana. Attacker mencuri code korban dari Web App, lalu menukarnya dgn evil-app miliknya → dapat access token korban.','s2':'Client app tidak memverifikasi tanda tangan id_token & menerima header alg=none. Attacker memalsukan id_token dgn email korban → diterima → masuk akun korban.','s3':'App menautkan akun hanya dari email, tanpa memastikan issuer (tenant) id_token. Attacker punya tenant sendiri (attackercloud.io) yg SAH menerbitkan id_token utk email korban → ATO.','s4':'Client memakai implicit grant → access token ada di URL; halaman output merepost token ke query string → browser kirim Referer berisi token ke resource pihak ketiga → token bocor.'}[s] }}</div>
+    </div>
+    <button class="toggle {{ 'vuln' if m else 'fixed' }}" data-sc="{{ s }}">
+      <i class="fa-solid {{ 'fa-bomb' if m else 'fa-shield' }}"></i> {{ 'RENTAN' if m else 'FIXED' }}
+    </button>
+  </div>
+  <div class="sc-body">
+    <div class="poc-actions">
+      <button class="btn-run" data-poc="{{ s }}"><i class="fa-solid fa-radiation"></i> Jalankan Exploit</button>
+      {% if s == 's1' %}<a class="btn-link" href="/evil/client"><i class="fa-solid fa-skull"></i> Buka Evil App (swap)</a>{% endif %}
+      {% if s == 's2' %}<a class="btn-link" href="/app/login"><i class="fa-brands fa-windows"></i> Buka Client App</a>{% endif %}
+      {% if s == 's3' %}<a class="btn-link" href="/app/login"><i class="fa-brands fa-windows"></i> Buka Client App</a>{% endif %}
+      {% if s == 's4' %}<a class="btn-link" href="/app/implicit"><i class="fa-solid fa-bolt"></i> Buka Implicit Flow</a>{% endif %}
+    </div>
+    <pre class="poc-out" id="out-{{ s }}"><span class="dim">▶ klik "Jalankan Exploit" — jejak tercatat di Attacker Logs</span></pre>
+  </div>
+</div>
+{% endfor %}
+{% endblock %}

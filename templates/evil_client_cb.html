@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Evil CB — OAuth2 Deep Lab{% endblock %}
+{% block content %}
+<div class="card">
+  <h2 class="card-title" style="color:var(--red)"><i class="fa-solid fa-code-branch"></i> Hasil redeem (evil-app)</h2>
+  <p class="dim">Token endpoint menjawab: <code>{{ resp.note or resp.error }}</code></p>
+
+  {% if tok %}
+  <div class="kill-box">
+    <div class="kill-row"><span>access_token</span><code>{{ tok }}</code></div>
+    <div class="kill-row"><span>owner</span><b>{{ account.username }} · {{ account.email }}</b></div>
+    {% if flag %}<div class="kill-row flag"><span>FLAG</span><b class="yellow">{{ flag }}</b></div>{% endif %}
+  </div>
+  {% else %}
+  <div class="err-box">Tukar code gagal — token endpoint menolak (cek skenario s1; code harus punya evil-app).</div>
+  {% endif %}
+
+  <a class="btn-ok" style="display:inline-block;margin-top:12px" href="/evil/client">← Ulangi</a>
+  <a class="btn-link" href="/logs">Attacker Logs</a>
+</div>
+{% endblock %}

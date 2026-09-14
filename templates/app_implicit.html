@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Implicit Flow — Client App{% endblock %}
+{% block content %}
+<div class="card">
+  <h2 class="card-title"><i class="fa-solid fa-bolt"></i> Implicit Grant (response_type=token) — Client App</h2>
+  <p class="dim">Ini "login cepat" lama. Token akses dikirim langsung lewat URL <b>fragment</b>. Di mode RENTAN (s4) provider melayani implicit grant; di FIXED ditolak total dan client disarankan pakai authorization code.</p>
+
+  <div class="poc-actions">
+    <a class="btn-link" href="{{ auth_url }}" style="background:var(--red);color:#fff;border:none;box-shadow:0 0 16px rgba(255,71,87,.5)">
+      <i class="fa-solid fa-right-to-bracket"></i> Login implicit (cara lama)
+    </a>
+    <a class="btn-link" href="/app/login"><i class="fa-solid fa-shield"></i> Alternatif: pakai authorization code (aman)</a>
+  </div>
+  <p class="dim" style="margin-top:10px">Setelah login, perhatikan: token ada di URL, lalu halaman itu memuat <code>&lt;img src="/evil/ref"&gt;</code> — browser mengirim <b>Referer</b> berisi URL (yang memuat token) ke /evil/ref.</p>
+</div>
+{% endblock %}

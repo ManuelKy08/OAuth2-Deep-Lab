@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Provider App — OAuth2 Deep Lab{% endblock %}
+{% block content %}
+<div class="card">
+  <h2 class="card-title"><i class="fa-solid fa-circle-check"></i> Konsen authorize — {{ client_name }}</h2>
+  <p class="dim">Pilih "Setujui" untuk menerbitkan authorization code bagi <b>{{ user.username }}</b>.</p>
+
+  <div class="log-wrap" style="margin-top:14px">
+    <div class="log-row"><span>user</span><b>{{ user.username }} · {{ user.email }}</b></div>
+    <div class="log-row"><span>scope</span><code>{{ scope or '(kosong)' }}</code></div>
+    <div class="log-row"><span>redirect_uri</span><code>{{ ruri }}</code></div>
+    <div class="log-row"><span>response_type</span><code>{{ rtype }}</code></div>
+    <div class="log-row"><span>state</span><code>{{ state or '(tidak ada)' }}</code></div>
+  </div>
+
+  <form method="post" action="/oauth/approve" style="margin-top:16px;display:flex;gap:10px">
+    <input type="hidden" name="client_id" value="{{ client_id }}">
+    <input type="hidden" name="redirect_uri" value="{{ ruri }}">
+    <input type="hidden" name="scope" value="{{ scope }}">
+    <input type="hidden" name="response_type" value="{{ rtype }}">
+    <input type="hidden" name="state" value="{{ state }}">
+    <button class="btn-ok" type="submit">✅ Setujui & Redirect</button>
+  </form>
+</div>
+{% endblock %}

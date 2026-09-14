@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Client App — OAuth2 Deep Lab{% endblock %}
+{% block content %}
+<div class="card">
+  <h2 class="card-title"><i class="fa-brands fa-windows"></i> Web App (client korban)</h2>
+  <p class="dim">Login normal: app ini redirect ke provider (<b>id.corp-test.local</b>) lalu kembali ke callback.</p>
+
+  <div class="poc-actions">
+    <a class="btn-link" href="{{ url_for('main.oauth_authorize', client_id=client.id, redirect_uri=cb, scope='profile email', response_type='code', state='state123') }}"
+       style="background:var(--cyan);color:#04121f;border:none;box-shadow:var(--glow)">
+      <i class="fa-solid fa-right-to-bracket"></i> Login dengan IdP (authorization code)
+    </a>
+    <a class="btn-link" href="/app/implicit"><i class="fa-solid fa-bolt"></i> Implicit flow</a>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Authorize Ditolak{% endblock %}
+{% block content %}
+<div class="card">
+  <h2 class="card-title" style="color:var(--red)"><i class="fa-solid fa-ban"></i> Authorize ditolak</h2>
+  {% for s in steps %}<p class="dim">• {{ s }}</p>{% endfor %}
+  <a class="btn-ok" style="display:inline-block;margin-top:10px" href="/">← Dashboard</a>
+</div>
+{% endblock %}
