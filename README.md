@@ -1,3 +1,8 @@
+<div align="center">
+<a href="https://ibb.co/Rky4jY9T"><img src="https://i.ibb.co/DHpgrztf/image.png" alt="image" border="0"></a>
+</div>
+
+
 # OAuth2 Deep-Dive Lab
 
 Lab Flask yang mengangkat **OAuth 2.0 / OIDC bug yang jarang dibahas di lab umum**, tapi jelas ada di program **Bug Bounty**. Tiap skenario punya toggle **RENTAN / FIXED**.
